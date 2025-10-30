@@ -3,6 +3,6 @@
   become: yes # use sudo to run tasks as root
   tasks:
     - name: Install MySQL Server
-      ansible.builtiin.package:
+      ansible.builtin.package:
         name: mysql-server
         state: installed
