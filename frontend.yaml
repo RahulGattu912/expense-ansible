@@ -37,7 +37,7 @@
     - name: copy expense.conf file
       ansible.builtin.copy:
         src: expense.conf # file is present in our system i.e ansible node, so need not to write remote src: yes
-        dest: /etc/nginx/conf.d/expense.conf
+        dest: /etc/nginx/default.d/expense.conf
 
     - name: restart nginx service
       ansible.builtin.service:
