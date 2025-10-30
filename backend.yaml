@@ -44,6 +44,11 @@
         src: backend.service # file is present in our system i.e ansible node, so need not to write remote src: yes
         dest: /etc/systemd/system/backend.service
 
+    - name: install python libraries
+      ansible.builtin.pip:
+        name: PyMySQL
+        executable: pip3.9
+
     - name: import mysql data
       community.mysql.mysql_db:
         name: all
