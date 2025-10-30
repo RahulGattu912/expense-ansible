@@ -3,7 +3,7 @@
   become: yes # use sudo to run tasks as root
   tasks:
     - name: Install MySQL libraries
-      absible.builtin.pip:
+      ansible.builtin.pip:
         name: PyMySQL
         executable: pip3.9
 
