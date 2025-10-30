@@ -6,9 +6,9 @@
       ansible.builtin.pip:
         name: "{{ item }}"
         executable: pip3.9
-        loop:
-          - cryptography
-          - PyMySQL
+      loop: # loop should not belong to ansible.builtin.pip. it should be at the same indentation level
+        - cryptography
+        - PyMySQL
 
     - name: Install MySQL Server
       ansible.builtin.package:
