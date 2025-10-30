@@ -3,7 +3,7 @@
   become: yes # use sudo to run tasks as root
   tasks:
     - name: install nginx
-      ansible.builtin.command:
+      ansible.builtin.yum:
         name: nginx
         state: installed
 
