@@ -1,13 +1,13 @@
 - name: configure frontend server
   hosts: frontend
-  become: yes # use sudo to run tasks as root
+  become: yes
   tasks:
-    - name: install nginx
-      ansible.builtin.yum:
+    - name: install nginx server
+      ansible.builtin.dnf:
         name: nginx
         state: installed
 
-    - name: ensure nginx is running and enabled
+    - name: enable and start nginx
       ansible.builtin.service:
         name: nginx
         state: started
@@ -16,30 +16,30 @@
     - name: delete html directory
       ansible.builtin.file:
         path: /usr/share/nginx/html
-        state: absent # delete the directory if exists
+        state: absent # delete directory if exists
 
     - name: create html directory
       ansible.builtin.file:
         path: /usr/share/nginx/html
-        state: directory # create directory if not exists
+        state: directory
 
-    - name: download frontend application code
+    - name: download frontend code
       ansible.builtin.get_url:
         url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
         dest: /tmp/frontend.zip
 
-    - name: unzip frontend application code
+    - name: unzip frontend code
       ansible.builtin.unarchive:
         src: /tmp/frontend.zip
         dest: /usr/share/nginx/html
-        remote_src: yes # file is already on remote server so set remote_src to yes i.e it is already present on other remote server which is not under ansible control
+        remote_src: yes
 
-    - name: copy expense.conf file
+    - name: copy expense config
       ansible.builtin.copy:
-        src: expense.conf # file is present in our system i.e ansible node, so need not to write remote src: yes
+        src: expense.conf
         dest: /etc/nginx/default.d/expense.conf
 
-    - name: restart nginx service
+    - name: restart nginx
       ansible.builtin.service:
-        name: nginx
         state: restarted
+        name: nginx
