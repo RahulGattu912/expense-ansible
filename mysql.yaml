@@ -2,6 +2,11 @@
   hosts: mysql
   become: yes # use sudo to run tasks as root
   tasks:
+    - name: Install MySQL libraries
+      absible.builtin.pip:
+        name: PyMySQL
+        executable: pip3.9
+
     - name: Install MySQL Server
       ansible.builtin.package:
         name: mysql-server
