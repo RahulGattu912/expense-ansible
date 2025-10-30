@@ -1,0 +1,8 @@
+- name: configure mysql server
+  hosts: mysql
+  become: yes # use sudo to run tasks as root
+  tasks:
+    - name: Install MySQL Server
+      ansible.builtiin.package:
+        name: mysql-server
+        state: installed
