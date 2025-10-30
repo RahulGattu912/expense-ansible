@@ -10,8 +10,11 @@
 
     - name: install nodejs
       ansible.builtin.package:
-        name: nodejs
+        name: "{{ item }}"
         state: present
+      loop:
+        - nodejs
+        - mysql
 
     - name: create expense user
       ansible.builtin.user:
@@ -30,8 +33,22 @@
       ansible.builtin.unarchive:
         src: /tmp/backend.zip
         dest: /app
-        remote_src: yes # file is already on remote server
+        remote_src: yes # file is already on remote server so set remote_src to yes i.e it is already present on other remote server which is not under ansible control
 
     - name: install backend dependencies
       community.general.npm:
         path: /app
+
+    - name: copy backend service file
+      ansible.builtin.copy:
+        src: backend.service # file is present in our system i.e ansible node, so need not to write remote src: yes
+        dest: /etc/systemd/system/backend.service
+
+    - name: import mysql data
+      community.mysql.mysql_db:
+        name: all
+        state: import
+        login_user: root
+        login_password: ExpenseApp@1
+        login_host: mysql.learndevops.online
+        target: /app/schema/backend.sql
