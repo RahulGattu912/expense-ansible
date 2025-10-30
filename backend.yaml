@@ -60,3 +60,9 @@
         login_password: ExpenseApp@1
         login_host: mysql.learndevops.online
         target: /app/schema/backend.sql
+
+    - name: daemon reload and restart service
+      ansible.builtin.systemd_service:
+        enabled: true
+        daemon_reload: true
+        name: backend
