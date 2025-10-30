@@ -30,4 +30,8 @@
       ansible.builtin.unarchive:
         src: /tmp/backend.zip
         dest: /app
-        remote_src: yes
+        remote_src: yes # file is already on remote server
+
+    - name: install backend dependencies
+      community.general.npm:
+        path: /app
